@@ -6,7 +6,8 @@ ROOT_URL = "https://api.erg.ic.ac.uk/AirQuality"
 
 endpoints = {"sites": "/Information/MonitoringSites/GroupName=London/Json",
              "site_species": "/Information/MonitoringSiteSpecies/GroupName=London/Json",
-             "species": "/Information/Species/Json"}
+             "species": "/Information/Species/Json",
+             "readings": "/Data/SiteSpecies/SiteCode=BG1/SpeciesCode=NO2/StartDate=2024-01-01/EndDate=2024-01-30/Json"}
 
 raw_dir = Path("data/raw")
 
