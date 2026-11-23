@@ -3,7 +3,7 @@ from pathlib import Path
 
 raw_dir = Path("data/raw")
 
-for name in ["sites", "site_species", "species", "readings"]:
+for name in ["sites", "site_species", "species", "example_reading"]:
     with open(raw_dir / f"{name}.json", "r") as file:
         data = json.load(file)
 
