@@ -1,0 +1,14 @@
+import duckdb
+from pathlib import Path
+
+db_path = Path("data/london_aircast.duckdb")
+db_path.parent.mkdir(parents = True, exist_ok = True)
+
+conn = duckdb.connect(str(db_path))
+
+
+# create schemas:
+conn.execute("CREATE SCHEMA IF NOT EXISTS staging")
+conn.execute("CREATE SCHEMA IF NOT EXISTS analytics")
+
+conn.close()
