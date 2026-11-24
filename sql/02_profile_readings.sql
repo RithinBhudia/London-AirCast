@@ -1,4 +1,13 @@
--- Profiling of staging.readings
+-- ============================================================
+-- Profile Readings
+-- ============================================================
+
+-- ============================================================
+-- This file Profiles:
+-- - row count, missing values, duplicate timestamps, zero/negative readings,
+--   and monthly completeness.
+--
+-- ============================================================
 
 
 -- Row counts for each site

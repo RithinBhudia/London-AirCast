@@ -1,3 +1,20 @@
+-- ============================================================
+-- Create Staging
+-- ============================================================
+
+-- ============================================================
+-- This file creates:
+-- - table:              taging.readings
+--   contains columns:   site_code, species_code, timestamp, value
+--
+-- - table:              staging.sites
+--   contains columns:   site_code, site_name, site_type,
+--                       latitude, longitude,
+--                       local_authority, local authority_code,
+--                       date_opened, date_closed
+--
+-- ============================================================
+
 CREATE SCHEMA IF NOT EXISTS staging;
 
 CREATE OR REPLACE TABLE staging.readings (

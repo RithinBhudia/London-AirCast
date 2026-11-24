@@ -1,3 +1,17 @@
+# ============================================================
+# Explore API
+# ============================================================
+
+# ============================================================
+# This file creates:
+# - sites.json, site_species.json, species_json   stored in data/readings/
+#
+# This file uses:
+# - Live LAQN API
+#
+# This script collects data from the LAQN API endpoints.
+# ============================================================
+
 import requests
 import json
 from pathlib import Path

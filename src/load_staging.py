@@ -1,3 +1,19 @@
+# ============================================================
+# Load Staging
+# ============================================================
+
+# ============================================================
+# This file creates:
+# - sites.json, site_species.json, species,json
+#
+# This file uses:
+# - transform_readings.py
+# - 01_create_staging.sql
+#
+# This script begins the load stage. It transforms all the readings,
+# executes the staging SQL and replaces the existing staging.readings.
+# ============================================================
+
 import duckdb
 from transform_readings import get_combined_readings
 from pathlib import Path

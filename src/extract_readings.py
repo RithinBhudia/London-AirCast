@@ -1,3 +1,17 @@
+# ============================================================
+# Extract Readings
+# ============================================================
+
+# ============================================================
+# This file creates:
+# - monthly BG1/MY1 NO2 JSON files stored in data/reading/
+#
+# This file uses:
+# - Live LAQN API
+#
+# This script downloads monthly hourly NO2 readings for BG1 and MY1
+# from Janurary 2024 through to the current month.
+# ============================================================
 from pathlib import Path
 import json
 import requests

@@ -1,3 +1,22 @@
+# ============================================================
+# Transform Readings
+# ============================================================
+
+# ============================================================
+# This file creates:
+# - function get_combined_readings()
+# - function data_quality_checks(df)
+#
+# This file uses:
+# - readings
+#
+# This script loads every monthly JSON reading file, extratcs the
+# site/species and hourly values. It rena,es the columns and combines
+# the data from each site. Then runs a quality check.
+# ============================================================
+
+
+
 import json
 import pandas as pd
 from pathlib import Path
