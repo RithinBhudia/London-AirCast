@@ -1,4 +1,4 @@
-# Originally I had included 'Harrow - Stanmore', code 'BG1'. I did this because this is where I live.
+# Originally I had included 'Harrow - Stanmore', code 'HR1'. I did this because this is where I live.
 
 # In extract_readings, I transformed the data into a pandas dataframe and 
 # noticed all the values were NaN for Janurary 2026.

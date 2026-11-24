@@ -2,63 +2,74 @@ import json
 import pandas as pd
 from pathlib import Path
 
-raw_dir = Path("data/raw/readings")
 
-dataframes = []
+def get_combined_readings():
+    raw_dir = Path("data/raw/readings")
+    dataframes = []
 
-for file_path in raw_dir.glob("*.json"):
-    
-    with open(file_path, "r") as file:
-        data = json.load(file)
+    for file_path in raw_dir.glob("*.json"):
+        
+        with open(file_path, "r") as file:
+            data = json.load(file)
 
-    raw_data = data["RawAQData"]
+        raw_data = data["RawAQData"]
 
-    site_code = raw_data["@SiteCode"]
-    species_code = raw_data["@SpeciesCode"]
+        site_code = raw_data["@SiteCode"]
+        species_code = raw_data["@SpeciesCode"]
 
-    readings = raw_data["Data"]
+        readings = raw_data["Data"]
 
-    # Make a data frame with columns: @MeasurementDateGMT, @Value
-    df = pd.DataFrame(readings)
+        # Make a data frame with columns: @MeasurementDateGMT, @Value
+        df = pd.DataFrame(readings)
 
-    # Rename columns
-    df = df.rename(columns={"@MeasurementDateGMT" : "timestamp",
-                        "@Value" : "value"})
+        # Rename columns
+        df = df.rename(columns={"@MeasurementDateGMT" : "timestamp",
+                            "@Value" : "value"})
 
-    # To df add columns: site_code, species_code
-    df["site_code"] = site_code
-    df["species_code"] = species_code
+        # To df add columns: site_code, species_code
+        df["site_code"] = site_code
+        df["species_code"] = species_code
 
-    # convert timestamps to python time
-    df["timestamp"] = pd.to_datetime(df["timestamp"], utc = True)
+        dataframes.append(df)
 
-    # convert value to numeric
-    df["value"] = pd.to_numeric(df["value"], errors = "coerce")
+    return pd.concat(dataframes, ignore_index = True)
 
-    # print(df.head())
-    # print(df.dtypes)
-
-
-    # =======================================================================================
+def data_quality_checks(df):
     # Data quality checks
-    print("site: ", site_code)
-    print("start date: ", df["timestamp"].min())
-    print("end date: ", df["timestamp"].max())
-    print("species: ", species_code)
+    numeric_values = pd.to_numeric(df["value"], errors = "coerce")
+    timestamps = pd.to_datetime(df["timestamp"], utc = True)
+
+
+
+    get_combined_readings()
+    print("start date: ", timestamps.min())
+    print("end date: ", timestamps.max())
     print("Total rows:", len(df))
-    print("Missing values:", df["value"].isna().sum())
-    print("Valid values:", df["value"].notna().sum())
-    print("invalid timestamps: ", df["timestamp"].isna().sum())
+    print("Missing values:", numeric_values.isna().sum())
+    print("Valid values:", numeric_values.notna().sum())
+    print("invalid timestamps: ", timestamps.isna().sum())
 
     # Check for duplicates
     duplicates = df.duplicated(subset = ["site_code", "species_code", "timestamp"]).sum()
     print("duplicates: ", duplicates)
     print()
 
+# Output:
+#
+# start date:  2024-01-01 00:00:00+00:00
+# end date:  2026-07-31 23:00:00+00:00
+# Total rows: 13152
+# Missing values: 5868
+# Valid values: 7284
+# invalid timestamps:  0
+# duplicates:  0
 
-    dataframes.append(df)
 
-combined_readings = pd.concat(dataframes, ignore_index = True)
 
-print(combined_readings.head())
-print(combined_readings.shape)
+if __name__ == "__main__":
+    combined_readings = get_combined_readings()
+
+    data_quality_checks(combined_readings)
+
+    print(combined_readings.head())
+    print(combined_readings.shape)
