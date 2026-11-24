@@ -1,23 +1,33 @@
 from pathlib import Path
 import json
 import requests
+from datetime import date
 
-# removes HR1 due to monitoring station inactivity
+# removed HR1 due to monitoring station inactivity
 sites = ["MY1", "BG1"]
 species = "NO2"
 
-start_date = "2026-01-01"
-end_date = "2026-01-31"
+start_year = 2024
+end_year = 2026
 
-periods = {"2024-01": ("2024-01-01", "2024-02-01"),
-           "2025-01": ("2025-01-01", "2025-02-01"),
-           "2026-01": ("2026-01-01", "2026-02-01"),
-           "2026-02": ("2026-02-01", "2026-03-01"),
-           "2026-03": ("2026-03-01", "2026-04-01"),
-           "2026-04": ("2026-04-01", "2026-05-01"),
-           "2026-05": ("2026-05-01", "2026-06-01"),
-           "2026-06": ("2026-06-01", "2026-07-01"),
-           "2026-07": ("2026-07-01", "2026-08-01")}
+periods = {}
+
+for year in range(start_year, end_year + 1):
+    for month in range(1,13):
+        start = date(year, month, 1)
+
+        if start > date.today():
+            continue
+        if month == 12:
+            end = date(year+1, 1, 1)
+
+        else:
+            end = date(year, month+1, 1)
+
+        periods[start.strftime("%Y-%m")] = (str(start),str(end))
+
+
+
 
 ROOT_URL = "https://api.erg.ic.ac.uk/AirQuality"
 
