@@ -130,3 +130,14 @@ AND timestamp IS NOT NULL;
 findings:
 - No invalid timestamp formats 
 */
+
+
+
+
+-- Test for load.py files
+.maxwidth 200
+SELECT * FROM staging.sites
+LIMIT 10;
+
+SELECT * FROM staging.site_species
+LIMIT 10;

@@ -22,6 +22,8 @@ def get_sites():
                     "site_type" : site["@SiteType"],
                     "latitude" : site["@Latitude"],
                     "longitude" : site["@Longitude"],
+                    "local_authority" : site["@LocalAuthorityName"],
+                    "local_authority_code" : site["@LocalAuthorityCode"],
                     "date_opened" : site["@DateOpened"],
                     "date_closed" : site["@DateClosed"]})
         

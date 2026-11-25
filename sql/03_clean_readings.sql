@@ -35,3 +35,8 @@ CREATE OR REPLACE analytics.sites(
     date_opened TIMESTAMP,
     date_closed TIMESTAMP
 )
+
+
+
+SELECT * FROM staging.sites
+LIMIT 10;
