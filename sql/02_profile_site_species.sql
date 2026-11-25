@@ -18,7 +18,9 @@ FROM staging.site_species
 GROUP BY site_code, species_code
 HAVING occurances > 1;
 /*
-- Should have no rows
+- I have no rows for my site choices as of now.
+- A monitoring station can theoretically start, stop then restart.
+- I cannot disprove that this is possible so choose primary key accordingly
 */
 
 

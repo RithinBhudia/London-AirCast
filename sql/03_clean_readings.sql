@@ -1,11 +1,11 @@
-CREATE SCHEMA IF NOT EXIST analytics;
+CREATE SCHEMA IF NOT EXISTS analytics;
 
 CREATE OR REPLACE TABLE analytics.readings(
     site_code VARCHAR,
     species_code VARCHAR,
     timestamp TIMESTAMP,
     value DOUBLE,
-    is_negative BOOLIAN,
+    is_negative BOOLEAN,
 
     PRIMARY KEY (site_code,species_code,timestamp)
 );
@@ -16,7 +16,7 @@ site_code,
 species_code,
 TRY_CAST(timestamp AS TIMESTAMP) AS timestamp,
 TRY_CAST(value AS DOUBLE) AS value,
-COALESCE(TRY_CAST(value AS DOUBLE) < 0) AS is_negative_or_null
+COALESCE(TRY_CAST(value AS DOUBLE) < 0, FALSE) AS is_negative
 FROM staging.readings
 
 -- Do not include rows where timestamp is null
@@ -24,19 +24,9 @@ WHERE TRY_CAST(timestamp AS TIMESTAMP) IS NOT NULL;
 
 
 
-CREATE OR REPLACE analytics.sites(
-    site_code VARCHAR,
-    site_name VARCHAR,
-    site_type VARCHAR,
-    latitude DOUBLE,
-    longitude DOUBLE,
-    local_authority VARCHAR,
-    local_authority_code VARCHAR,
-    date_opened TIMESTAMP,
-    date_closed TIMESTAMP
-)
 
-
-
-SELECT * FROM staging.sites
+-- Remove this later:
+SELECT * 
+FROM analytics.readings
+WHERE is_negative IS TRUE
 LIMIT 10;

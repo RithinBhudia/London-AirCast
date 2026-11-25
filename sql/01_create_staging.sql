@@ -33,7 +33,7 @@ CREATE OR REPLACE TABLE staging.sites(
     local_authority VARCHAR,
     local_authority_code VARCHAR,
     date_opened VARCHAR,
-    date_closed VARCHAR,
+    date_closed VARCHAR
 );
 
 CREATE TABLE IF NOT EXISTS staging.site_species (
