@@ -141,3 +141,25 @@ LIMIT 10;
 
 SELECT * FROM staging.site_species
 LIMIT 10;
+
+
+-- ====================================
+-- POST CLEANING VALIDATION
+-- ====================================
+
+-- Check row count
+SELECT COUNT(*) AS count
+FROM analytics.readings;
+/*
+- Should be the same as in staging
+*/
+
+
+-- Check types
+DESCRIBE analytics.readings;
+
+
+-- Preview of cleaned data
+SELECT * 
+FROM analytics.readings
+LIMIT 10;

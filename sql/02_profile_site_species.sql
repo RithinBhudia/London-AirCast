@@ -39,3 +39,43 @@ AND NULLIF(TRIM(date_measurement_end), '') IS NOT NULL
 /*
 - Should be zero
 */
+
+
+
+-- ====================================
+-- POST CLEANING VALIDATION
+-- ====================================
+
+-- Check row count
+SELECT COUNT(*) AS count
+FROM analytics.site_species;
+/*
+- Should be the same as in staging
+*/
+
+
+-- Check types
+DESCRIBE analytics.site_species;
+
+
+-- Chhek for missing measurement start dates
+SELECT *
+FROM analytics.site_species
+WHERE date_measurement_start IS NULL;
+/*
+- Should show no rows
+*/
+
+-- Check for invalid periods
+SELECT *
+FROM analytics.site_species
+WHERE date_measurement_end < date_measurement_start;
+/*
+- Should show no rows
+*/
+
+
+-- Preview of cleaned data
+SELECT * 
+FROM analytics.site_species
+LIMIT 10;
