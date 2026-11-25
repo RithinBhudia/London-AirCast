@@ -16,7 +16,9 @@ def get_sites():
     rows = []
 
     for site in data_sites_site:
-        # filter out unused sites at some point
+        if site["@SiteCode"] not in sites:
+            continue
+
         rows.append({"site_code" : site["@SiteCode"],
                     "site_name" : site["@SiteName"],
                     "site_type" : site["@SiteType"],
