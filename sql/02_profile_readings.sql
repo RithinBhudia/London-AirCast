@@ -120,3 +120,13 @@ HAVING COUNT(*) >1;
 findings:
 - No duplicates found
 */
+
+-- Check timestamps are in the correct format
+SELECT COUNT(timestamp) AS invalid_timestamp_count
+FROM staging.readings
+WHERE TRY_CAST(timestamp AS TIMESTAMP) IS NULL
+AND timestamp IS NOT NULL;
+/*
+findings:
+- No invalid timestamp formats 
+*/

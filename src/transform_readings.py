@@ -21,7 +21,6 @@ import json
 import pandas as pd
 from pathlib import Path
 
-
 def get_combined_readings():
     raw_dir = Path("data/raw/readings")
     dataframes = []

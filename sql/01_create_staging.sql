@@ -33,10 +33,13 @@ CREATE OR REPLACE TABLE staging.sites(
     local_authority VARCHAR,
     local_authority_code VARCHAR,
     date_opened VARCHAR,
-    date_closed VARCHAR
+    date_closed VARCHAR,
 );
 
-SELECT * 
-FROM staging.readings
-LIMIT 10;
+CREATE TABLE IF NOT EXISTS staging.site_species (
+    site_code VARCHAR,
+    species_code VARCHAR,
+    date_measurement_start VARCHAR,
+    date_measurement_end VARCHAR
+);
 
