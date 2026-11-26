@@ -21,6 +21,8 @@ from datetime import date
 sites = ["MY1", "BG1"]
 species = ["NO2"]
 
+
+
 start_year = 2024
 end_year = 2026
 
@@ -82,6 +84,8 @@ def main():
                     json.dump(response, file)
 
                 print(f"downloaded readings for {site}")
+
+
 
 if __name__ == "__main__":
     main()
