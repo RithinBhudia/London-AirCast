@@ -19,7 +19,7 @@ from datetime import date
 
 # removed HR1 due to monitoring station inactivity
 sites = ["MY1", "BG1"]
-species = "NO2"
+species = ["NO2"]
 
 start_year = 2024
 end_year = 2026
@@ -49,25 +49,39 @@ ROOT_URL = "https://api.erg.ic.ac.uk/AirQuality"
 readings_dir = Path("data/raw/readings")
 readings_dir.mkdir(parents = True, exist_ok = True)
 
-for site in sites:
-    for period, (start_date, end_date) in periods.items():
-        url = ROOT_URL + f"/Data/SiteSpecies/SiteCode={site}/SpeciesCode={species}/StartDate={start_date}/EndDate={end_date}/Json"
 
-        # get request to url
-        response = requests.get(url, timeout = 30)
+# move function to the outside
+def fetch_readings(site_code, species_code, start_date, end_date):
+    url = ROOT_URL + f"/Data/SiteSpecies/SiteCode={site_code}/SpeciesCode={species_code}/StartDate={start_date}/EndDate={end_date}/Json"
 
-        # error:
-        response.raise_for_status()
-        # check file is json
-        response.json()
+    # get request to url
+    response = requests.get(url, timeout = 30)
 
-        file_path = readings_dir/f"{site}_{species}_{period}.json"
+    # error:
+    response.raise_for_status()
+    # check file is json
+    return response.json()
 
-        if file_path.exists():
-            print(file_path.name ,"file already exists, skipping...")
-            continue
-        
-        with open(file_path, "w") as file:
-            file.write(response.text)
 
-        print(f"downloaded readings for {site}")
+
+
+def main():
+    for site in sites:
+        for period, (start_date, end_date) in periods.items():
+
+            for specie in species:
+                response = fetch_readings(site, specie, start_date, end_date)
+
+                file_path = readings_dir/f"{site}_{specie}_{period}.json"
+
+                if file_path.exists():
+                    print(file_path.name ,"file already exists, skipping...")
+                    continue
+
+                with open(file_path, "w") as file:
+                    json.dump(response, file)
+
+                print(f"downloaded readings for {site}")
+
+if __name__ == "__main__":
+    main()

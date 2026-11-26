@@ -1,3 +1,5 @@
+# incramental script
+
 import duckdb
 from datetime import datetime, timedelta, timezone
 
