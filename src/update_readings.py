@@ -56,7 +56,9 @@ def update_readings(conn):
     for updating_reading in updating_readings:
         response = fetch_readings(updating_reading[0], updating_reading[1],updating_reading[2],updating_reading[3])
 
-        file_path = updating_readings_dir/f"{updating_reading[0]}_{updating_reading[1]}_{updating_reading[2]}_{updating_reading[3]}.json"
+        extraction_time = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+        file_path = updating_readings_dir/f"{updating_reading[0]}_{updating_reading[1]}_{extraction_time}.json"
 
         if file_path.exists():
             print(file_path.name ,"file already exists, skipping...")
@@ -65,7 +67,7 @@ def update_readings(conn):
         with open(file_path, "w") as file:
             json.dump(response, file)
 
-        print(f"downloaded readings for {updating_reading[0]}_{updating_reading[1]}_{updating_reading[2]}_{updating_reading[3]}.json")
+        print(f"downloaded readings for {updating_reading[0]}_{updating_reading[1]}_{extraction_time}.json")
 
 
 

@@ -21,8 +21,8 @@ import json
 import pandas as pd
 from pathlib import Path
 
-def get_combined_readings():
-    raw_dir = Path("data/raw/readings")
+def get_combined_readings(path):
+    raw_dir = Path(path)
     dataframes = []
 
     for file_path in raw_dir.glob("*.json"):
@@ -50,16 +50,19 @@ def get_combined_readings():
 
         dataframes.append(df)
 
+    if not dataframes:
+        return pd.DataFrame(
+        columns=["timestamp", "value", "site_code", "species_code"]
+    )
+
     return pd.concat(dataframes, ignore_index = True)
 
 def data_quality_checks(df):
     # Data quality checks
     numeric_values = pd.to_numeric(df["value"], errors = "coerce")
-    timestamps = pd.to_datetime(df["timestamp"], utc = True)
+    timestamps = pd.to_datetime(df["timestamp"], utc = True, errors = "coerce")
 
 
-
-    get_combined_readings()
     print("start date: ", timestamps.min())
     print("end date: ", timestamps.max())
     print("Total rows:", len(df))
@@ -85,9 +88,25 @@ def data_quality_checks(df):
 
 
 if __name__ == "__main__":
-    combined_readings = get_combined_readings()
+    # historical dataframe
+    historical_df = get_combined_readings(Path("data/raw/readings"))
 
-    data_quality_checks(combined_readings)
+    print("HISTORICAL READINGS")
+    print(historical_df.head())
+    print(historical_df.shape)
+    print(data_quality_checks(historical_df))
+    print()
 
-    print(combined_readings.head())
-    print(combined_readings.shape)
+
+
+
+
+
+    # incramental dataframe
+    updates_df = get_combined_readings(Path("data/raw/updates"))
+
+    print("INCRAMENTAL READINGS")
+    print(updates_df.head())
+    print(updates_df.shape)
+    print(data_quality_checks(updates_df))
+

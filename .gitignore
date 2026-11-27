@@ -7,4 +7,5 @@ data/raw/readings/
 *.duckdb
 *.duckdb.wal
 *.duckdb.tmp
+data/raw/updates/
 

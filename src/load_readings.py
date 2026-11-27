@@ -18,7 +18,7 @@ import duckdb
 from transform_readings import get_combined_readings
 from pathlib import Path
 
-combined_readings = get_combined_readings()
+combined_readings = get_combined_readings(Path("data/raw/readings"))
 
 conn = duckdb.connect("data/london_aircast.duckdb")
 
